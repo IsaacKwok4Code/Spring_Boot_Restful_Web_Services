@@ -2,6 +2,9 @@ package com.yin4learning.restful_web_service.service;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.yin4learning.restful_web_service.db.entity.UserEntity;
@@ -18,6 +21,9 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	Utils utils;
 	
+	@Autowired
+	BCryptPasswordEncoder bCryptPasswordEncoder;
+	
 	@Override
 	public UserDTO createUserFunction(UserDTO userRsDTO) {
 		//First checking existing record by email
@@ -32,10 +38,17 @@ public class UserServiceImpl implements UserService {
 		String publicUserId = utils.generateUserId(30);
 		userEntityObject.setUserId(publicUserId);
 		//system generate id
-		userEntityObject.setEncryptedPassword("testPW");
+		userEntityObject.setEncryptedPassword(bCryptPasswordEncoder.encode(userRsDTO.getPassword()));
+		//setting BCryPassword encode
 		UserEntity storedUserDetails = userRepository.save(userEntityObject);
 		BeanUtils.copyProperties(storedUserDetails, returnDtoObject);
 		return returnDtoObject;
+	}
+
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
