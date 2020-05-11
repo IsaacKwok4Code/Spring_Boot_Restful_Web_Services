@@ -1,4 +1,4 @@
-package com.yin4learning.restful_web_service.model;
+package com.yin4learning.restful_web_service.model.request;
 
 public class UserDetailsRequest {
 
@@ -31,5 +31,6 @@ public class UserDetailsRequest {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+    
     
 }

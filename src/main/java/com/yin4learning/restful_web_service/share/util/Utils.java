@@ -1,8 +1,7 @@
-package com.yin4learning.restful_web_service.utils;
+package com.yin4learning.restful_web_service.share.util;
 
-import java.security.SecureRandom;
 import java.util.Random;
-
+import java.security.SecureRandom;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -10,8 +9,6 @@ public class Utils {
 
 	private final Random RANDOM = new SecureRandom();
 	private final String ALPHABET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-	//private final int ITERATIONS = 10000;
-	//private final int KEY_LENGTH = 256;
 	
 	private String generateRandomString(int length) {
 		 StringBuilder returnValue = new StringBuilder(length);

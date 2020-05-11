@@ -1,4 +1,4 @@
-package com.yin4learning.restful_web_service.model;
+package com.yin4learning.restful_web_service.model.response;
 
 public class UserDetailsResponse {
 
