@@ -25,11 +25,11 @@ public class WebSecurity extends WebSecurityConfigurerAdapter{
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable()
-			.authorizeRequests().antMatchers(HttpMethod.POST, "/RestfulController/createUser").permitAll()
-			.anyRequest().authenticated();
+			.authorizeRequests().antMatchers(HttpMethod.POST, SecurityConstants.SIGN_UP_URL).permitAll()
+			.anyRequest().authenticated().and().addFilter(new AuthenticationFilter(authenticationManager()));
 	}
 	
-	//AuthenticationManagerBuilder for protect password
+	//AuthenticationManagerBuilder for protect password and load the encoded password
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
