@@ -22,8 +22,8 @@ public class restfulWebServiceController {
 	@Autowired
 	UserService userService;
 	
-	@GetMapping("/Test")
-	public String getUser() {
+	@GetMapping(path="/{id}")
+	public String getUser(String id) {
 		return "test";
 	}
 	

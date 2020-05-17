@@ -1,11 +1,14 @@
 package com.yin4learning.restful_web_service.model.request;
 
+import java.util.List;
+
 public class UserDetailsRequest {
 
 	private String firstName;
     private String lastName;
     private String email;
     private String password;
+    private List<AddressRequestModel> addresses;
     
 	public String getFirstName() {
 		return firstName;
@@ -31,6 +34,11 @@ public class UserDetailsRequest {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-    
+	public List<AddressRequestModel> getAddresses() {
+		return addresses;
+	}
+	public void setAddresses(List<AddressRequestModel> addresses) {
+		this.addresses = addresses;
+	}
     
 }
