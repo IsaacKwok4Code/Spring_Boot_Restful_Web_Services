@@ -27,6 +27,17 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	BCryptPasswordEncoder bCryptPasswordEncoder;
 	
+	// find user by email - email and userID are unique. but for security and data issue, should have method for finding email.
+	@Override
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		//create user entity object and 
+		UserEntity userObject = userRepository.findByEmail(email);
+		// if system can't find the email in database
+		if (userObject == null) throw new UsernameNotFoundException(email);
+		
+		return new User(userObject.getEmail(), userObject.getEncryptedPassword(), new ArrayList<>());
+	}
+	
 	@Override
 	public UserDTO createUserFunction(UserDTO userRsDTO) {
 		//First checking existing record by email
@@ -49,20 +60,22 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-		UserEntity userObject = userRepository.findByEmail(email);
-		// if system can't find the email in database
-		if (userObject == null) throw new UsernameNotFoundException(email);
-		
-		return new User(userObject.getEmail(), userObject.getEncryptedPassword(), new ArrayList<>());
-	}
-
-	@Override
 	public UserDTO getUser(String email) {
 		UserEntity userEntity = userRepository.findByEmail(email);
 		if (userEntity == null)
 			throw new UsernameNotFoundException(email);
 		UserDTO returnValue = new UserDTO();
+		BeanUtils.copyProperties(userEntity, returnValue);
+		return returnValue;
+	}
+
+	@Override
+	public UserDTO getUserByUserId(String id) {
+		UserDTO returnValue = new UserDTO();
+		UserEntity userEntity = userRepository.findByUserId(id);
+		if(userEntity == null) {
+			throw new UsernameNotFoundException("User with ID: " + id + " not found");
+		}
 		BeanUtils.copyProperties(userEntity, returnValue);
 		return returnValue;
 	}

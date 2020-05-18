@@ -8,4 +8,5 @@ import com.yin4learning.restful_web_service.db.entity.UserEntity;
 public interface UserRepository extends CrudRepository<UserEntity, Long>{
 
 	UserEntity findByEmail(String email);
+	UserEntity findByUserId(String userId);
 }
