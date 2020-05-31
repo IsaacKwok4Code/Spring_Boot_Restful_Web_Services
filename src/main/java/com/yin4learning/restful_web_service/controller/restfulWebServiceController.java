@@ -25,7 +25,11 @@ public class restfulWebServiceController {
 	@Autowired
 	UserService userService;
 	
-	@GetMapping(path = "/getUser/{id}", produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
+	//@Autowired
+	//AddressService addressService;
+	
+	@GetMapping(path = "/getUser/{id}"
+			,produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
 	public UserDetailsResponse getUser(@PathVariable String id) {
 		//create return object
 		UserDetailsResponse returnResponseObject = new UserDetailsResponse();
@@ -35,7 +39,7 @@ public class restfulWebServiceController {
 		ModelMapper modelMapper = new ModelMapper();
 		// BeanUtils vs. ModelMapper for mapping
 		returnResponseObject = modelMapper.map(receivedDtoObject, UserDetailsResponse.class);
-		return null;
+		return returnResponseObject;
 	}
 	
 	/**
@@ -43,7 +47,9 @@ public class restfulWebServiceController {
 	 * @param UserDetailsRequest - include all information for registration 
 	 * @return UserDetailsResponse - include some information and response the userid
 	 */
-	@PostMapping("/createUser")
+	@PostMapping(path = "/createUser"
+			,consumes = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE }
+			,produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
 	public UserDetailsResponse createUser(@RequestBody UserDetailsRequest userinfoRquest) {
 		// create return object
 		UserDetailsResponse returnResponseObject = new UserDetailsResponse();
@@ -52,15 +58,24 @@ public class restfulWebServiceController {
 		//copy input to DTO
 		BeanUtils.copyProperties(userinfoRquest, receivedDtoObject);
 		//calling user service
-		UserDTO createdUserDTO = userService.createUserFunction(receivedDtoObject);
+		UserDTO createdUserDTO = userService.createUser(receivedDtoObject);
 		//copy created data to return object
 		BeanUtils.copyProperties(createdUserDTO, returnResponseObject);
 		return returnResponseObject;
 	}
 	
-	@PutMapping("/updateUser")
-	public String updateUser() {
-		return "put test";
+	@PutMapping(path ="/updateUser/{id}"
+			,consumes = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE }
+			,produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
+	public UserDetailsResponse updateUser(@PathVariable String id, @RequestBody UserDetailsRequest userDetails) {
+		// create return object
+		UserDetailsResponse returnResponseObject = new UserDetailsResponse();
+		//create DTO object
+		UserDTO receivedDtoObject = new UserDTO();
+		receivedDtoObject = new ModelMapper().map(userDetails, UserDTO.class);
+		UserDTO updateUser = userService.updateUser(id, receivedDtoObject);
+		returnResponseObject = new ModelMapper().map(updateUser, UserDetailsResponse.class);
+		return returnResponseObject;
 	}
 	
 	@DeleteMapping("/deleteUser")
