@@ -20,6 +20,7 @@ import com.yin4learning.restful_web_service.db.entity.PasswordResetTokenEntity;
 import com.yin4learning.restful_web_service.db.entity.UserEntity;
 import com.yin4learning.restful_web_service.exceptions.UserServiceException;
 import com.yin4learning.restful_web_service.model.response.ErrorMessages;
+import com.yin4learning.restful_web_service.repository.PasswordResetTokenRepository;
 import com.yin4learning.restful_web_service.repository.UserRepository;
 import com.yin4learning.restful_web_service.share.dto.AddressDTO;
 import com.yin4learning.restful_web_service.share.dto.UserDTO;
@@ -30,6 +31,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	UserRepository userRepository;
+	
+	@Autowired
+	PasswordResetTokenRepository  passwordResetTokenRepository;
 	
 	@Autowired
 	Utils utils;
@@ -218,7 +222,6 @@ public class UserServiceImpl implements UserService {
 	public boolean resetPassword(String token, String password) {
 		// TODO Auto-generated method stub
 		return false;
-	}
 	}
 	
 }
